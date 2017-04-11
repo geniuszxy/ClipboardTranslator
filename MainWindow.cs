@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace DictCN
+namespace ClipboardTranslator
 {
 	public partial class MainWindow : Form
 	{
@@ -56,14 +56,6 @@ namespace DictCN
 			if (p.Y < 0)
 				p.Y = 0;
 			this.Location = p;
-		}
-
-		void opacityChange(object sender, EventArgs e)
-		{
-			var tag = (string)((ToolStripMenuItem)sender).Tag;
-			int opacity;
-			if (int.TryParse(tag, out opacity))
-				this.Opacity = opacity / 100.0;
 		}
 
 		[DllImport("user32.dll", SetLastError = true)]
@@ -121,6 +113,11 @@ namespace DictCN
 				this.result.Text = text;
 				this.Size = this.result.Size;
 			}
+		}
+
+		void onOpenConfig(object sender, EventArgs e)
+		{
+			new ConfigWindow().ShowDialog(this);
 		}
 	}
 }

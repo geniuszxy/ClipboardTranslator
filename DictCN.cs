@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 
-namespace DictCN
+namespace ClipboardTranslator
 {
 	class DictCN
 	{
