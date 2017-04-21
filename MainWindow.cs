@@ -2,11 +2,13 @@
 using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Timer = System.Threading.Timer;
 
 namespace ClipboardTranslator
 {
 	public partial class MainWindow : Form
 	{
+		Timer _autoHideTimer;
 		Size _dragOffset;
 		DictCN _dictCN;
 
@@ -63,6 +65,10 @@ namespace ClipboardTranslator
 
 		void MainWindow_Load(object sender, EventArgs e)
 		{
+			var config = Config.Load();
+			this.Location = config.StartPosition;
+			ApplyConfig();
+
 			if (!AddClipboardFormatListener(this.Handle))
 			{
 				MessageBox.Show(Marshal.GetLastWin32Error().ToString(), "Error", MessageBoxButtons.OK);
@@ -71,6 +77,14 @@ namespace ClipboardTranslator
 			}
 
 			_dictCN = new DictCN(Found);
+
+			//隐藏
+			this.Hide();
+		}
+
+		void MainWindow_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			Config.Load().StartPosition = this.Location;
 		}
 
 		protected override void WndProc(ref Message m)
@@ -112,12 +126,54 @@ namespace ClipboardTranslator
 			{
 				this.result.Text = text;
 				this.Size = this.result.Size;
+				StartAutoHide();
 			}
 		}
 
 		void onOpenConfig(object sender, EventArgs e)
 		{
-			new ConfigWindow().ShowDialog(this);
+			if (new ConfigWindow().ShowDialog(this) != DialogResult.OK)
+				return;
+			ApplyConfig();
+		}
+
+		void ApplyConfig()
+		{
+			var config = Config.Load();
+			this.BackColor = config.BackgroundColor;
+			this.Opacity = config.Opacity / 100.0;
+		}
+
+		void StartAutoHide()
+		{
+			var config = Config.Load();
+			this.Show();
+			this.Opacity = config.Opacity / 100.0;
+			var delay = config.AutoHideDelay;
+			if (delay == 0) //不隐藏
+				return;
+
+			//如果当前已经在隐藏了，则重新开始
+			if (_autoHideTimer != null)
+			{
+				_autoHideTimer.Change(delay, 30);
+				return;
+			}
+
+			//创建Timer
+			_autoHideTimer = new System.Threading.Timer((state) =>
+			{
+				var opacity = this.Opacity - 0.1;
+				if (opacity <= 0)
+				{
+					_autoHideTimer.Dispose();
+					_autoHideTimer = null;
+					this.Hide();
+				}
+				else
+					this.Opacity = opacity;
+			},
+			null, delay, 30);
 		}
 	}
 }

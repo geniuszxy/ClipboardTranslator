@@ -32,10 +32,10 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
 			this.mainNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
 			this.notifyIconMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
-			this.menuShowHide = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuConfig = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuQuit = new System.Windows.Forms.ToolStripMenuItem();
 			this.result = new System.Windows.Forms.Label();
-			this.menuConfig = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuShowHide = new System.Windows.Forms.ToolStripMenuItem();
 			this.notifyIconMenu.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -59,12 +59,12 @@
 			this.notifyIconMenu.ShowImageMargin = false;
 			this.notifyIconMenu.Size = new System.Drawing.Size(118, 70);
 			// 
-			// menuShowHide
+			// menuConfig
 			// 
-			this.menuShowHide.Name = "menuShowHide";
-			this.menuShowHide.Size = new System.Drawing.Size(117, 22);
-			this.menuShowHide.Text = "Hide";
-			this.menuShowHide.Click += new System.EventHandler(this.menuShowHide_Click);
+			this.menuConfig.Name = "menuConfig";
+			this.menuConfig.Size = new System.Drawing.Size(117, 22);
+			this.menuConfig.Text = "Configure...";
+			this.menuConfig.Click += new System.EventHandler(this.onOpenConfig);
 			// 
 			// menuQuit
 			// 
@@ -84,12 +84,12 @@
 			this.result.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainWindow_MouseDown);
 			this.result.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainWindow_MouseUp);
 			// 
-			// menuConfig
+			// menuShowHide
 			// 
-			this.menuConfig.Name = "menuConfig";
-			this.menuConfig.Size = new System.Drawing.Size(117, 22);
-			this.menuConfig.Text = "Configure...";
-			this.menuConfig.Click += new System.EventHandler(this.onOpenConfig);
+			this.menuShowHide.Name = "menuShowHide";
+			this.menuShowHide.Size = new System.Drawing.Size(117, 22);
+			this.menuShowHide.Text = "Hide";
+			this.menuShowHide.Click += new System.EventHandler(this.menuShowHide_Click);
 			// 
 			// MainWindow
 			// 
@@ -111,6 +111,7 @@
 			this.ShowInTaskbar = false;
 			this.Text = "Dict.CN";
 			this.TopMost = true;
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainWindow_FormClosed);
 			this.Load += new System.EventHandler(this.MainWindow_Load);
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainWindow_MouseDown);
 			this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainWindow_MouseUp);
@@ -125,9 +126,9 @@
 		private System.Windows.Forms.NotifyIcon mainNotifyIcon;
 		private System.Windows.Forms.ContextMenuStrip notifyIconMenu;
 		private System.Windows.Forms.ToolStripMenuItem menuQuit;
-		private System.Windows.Forms.ToolStripMenuItem menuShowHide;
 		private System.Windows.Forms.Label result;
 		private System.Windows.Forms.ToolStripMenuItem menuConfig;
+		private System.Windows.Forms.ToolStripMenuItem menuShowHide;
 	}
 }
 
