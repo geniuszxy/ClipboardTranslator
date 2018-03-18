@@ -118,6 +118,17 @@ namespace ClipboardTranslator
 			}
 		}
 
+		protected override CreateParams CreateParams
+		{
+			get
+			{
+				//Hide from ALT+TAB
+				var cp = base.CreateParams;
+				cp.ExStyle |= 0x80; //WS_EX_TOOLWINDOW
+				return cp;
+			}
+		}
+
 		void Found(string text)
 		{
 			if (this.InvokeRequired)
