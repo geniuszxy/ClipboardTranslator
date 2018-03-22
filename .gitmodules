@@ -1,4 +1,0 @@
-[submodule "HttpUtility"]
-path = Library/HttpUtility
-url = https://github.com/geniuszxy/HttpUtility.git
-ignore = dirty
