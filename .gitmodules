@@ -1,0 +1,3 @@
+[submodule "Library/HttpUtility"]
+	path = Library/HttpUtility
+	url = https://github.com/geniuszxy/HttpUtility.git
